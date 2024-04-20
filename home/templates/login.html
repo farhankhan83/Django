@@ -1,0 +1,37 @@
+{% extends "master.html" %}
+{% load static %}
+{% block title %}
+	Login
+{% endblock %}
+{% block content %}
+<section class="container">
+
+<div class="container col-md-6 offset-md-3">
+  <h1>Login Form</h1>
+  <form method="POST" action="{% url 'Login' %}" >
+    {% csrf_token %}
+      <div class="margin-vertical">
+        <label for="username" class="form-label">Username</label>
+    <input
+          type="text"
+          class="form-control"
+          name="username"
+          placeholder="Enter Username"
+          required
+        >
+      </div>
+      <div class="margin-vertical">
+        <label for="password" class="form-label">Password</label>
+    <input
+          type="password"
+          class="form-control"
+          name="password"
+          placeholder="Enter Password"
+          required
+        >
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+</div>
+</section>
+{% endblock %}
