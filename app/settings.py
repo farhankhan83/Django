@@ -11,7 +11,10 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+from dotenv import load_dotenv
+import os, json
 
+load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -23,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-su4@6+^lkfvas89_+@*(@i9*@ih#@(*-0*6b2p5z_%ben!z6yt'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG') == 'True'
 
 ALLOWED_HOSTS = []
 
@@ -73,11 +76,17 @@ WSGI_APPLICATION = 'app.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
+# dbConfig = json.load(os.environ.get('DB_CONFIG'))
 
+dbConfig = json.loads(os.environ.get('DB_CONFIG'))
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': dbConfig.get('name'),
+        'USER': dbConfig.get('user'),
+        'PASSWORD': dbConfig.get('password'),
+        'HOST': dbConfig.get('host'),
+        'PORT': dbConfig.get('port')
     }
 }
 
