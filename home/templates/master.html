@@ -5,10 +5,14 @@
   <meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" media="screen" href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,700">
-	<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
 	<link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}"> 
 	<link rel="stylesheet" href="{% static 'css/bootstrap-theme.css' %}" media="screen"> 
 	<link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <!-- CSS -->
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
+<!-- Default theme -->
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css"/>
   <title>{% block title %}{% endblock %}</title>
   {% block metaData %}{% endblock %}
 </head>
@@ -16,25 +20,32 @@
 <!-- Fixed navbar -->
 <div class="navbar navbar-inverse">
   <div class="container">
-    <div class="navbar-header">
+    <div style="margin: 0; padding: 0;">
       <!-- Button for smallest screens -->
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
-      <a class="navbar-brand" href="index.html">
-        <img src="{% static 'images/logo1.png'  %}" alt="logo"></a>
+      <a class="navbar-brand" style="margin: 0; padding: 0;" href="{% url 'Home' %}">
+        <!-- <img src="" alt="logo"></a> -->
+        <h1 style="color: black;">LOGO</h1>
+      </a>
     </div>
     <div class="navbar-collapse collapse">
       <ul class="nav navbar-nav pull-right mainNav">
         <li class=""><a href="/">Home</a></li>
-        <li><a href="about">About</a></li>
-        <li><a href="courses">Courses</a></li>
-        <li><a href="contact">Contact</a></li>
-
+        <li><a href="{% url 'About' %}">About</a></li>
+        <li><a href="{% url 'About' %}">Courses</a></li>
+        <li><a href="{% url 'Contact' %}">Contact</a></li>
+{% if request.user.is_authenticated %}
+  <li><a href="{% url 'Logout' %}">Logout</a></li>
+  {% else %}
+  <li><a href="{% url 'Login' %}">Login</a></li>
+{% endif %}
       </ul>
     </div>
     <!--/.nav-collapse -->
   </div>
 </div>
 <!-- /.navbar -->
+
 {% block content %}
 {% endblock %}
 
@@ -141,5 +152,14 @@
 	<script type='text/javascript' src="{% static 'js/jquery.min.js' %}"></script>
     
     <script src="{% static 'js/bootstrap.min.js' %}"></script> 
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+      {% if messages %}
+      {% for message in messages %}
+    <script>
+      alertify.set('notifier', 'position', 'top-right')
+      alertify.success('{{message}}')
+    </script>
+      {% endfor%}
+      {% endif %}
 </body>
 </html>
