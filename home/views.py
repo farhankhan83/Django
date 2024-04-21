@@ -32,8 +32,6 @@ def login(request):
 
 
 def loginUser(request):
-    print(request)
-
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
@@ -59,10 +57,6 @@ def logoutUser(req):
 def register_student(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST, request.FILES)
-        print(form.is_valid())
-        print(form.cleaned_data)
-        print(form.errors)
-        print(form.error_messages)
         if form.is_valid():
             form.save()
             # Authenticate and logg user in
