@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.template import loader
 from django.contrib.auth import authenticate, login as auth_login, logout
 from django.contrib import messages
-
+from .forms import RegisterForm
 def homePage(request):
     return render(request, 'homePage.html', {})
 
@@ -32,17 +32,15 @@ def login(request):
 
 
 def loginUser(request):
-    print(request)
-
     if request.method == 'POST':
-        email = request.POST['username']
+        username = request.POST['username']
         password = request.POST['password']
 
         # Authentication Logic
-        user = authenticate(request, useremail = email, password = password)
+        user = authenticate(request, username = username, password = password)
         if user is not None:
             login(request, user)
-            message.success(request, 'User Logged In Successfully')
+            messages.success(request, 'User Logged In Successfully')
             return redirect('Home')
         else:
             messages.success(request, "Error Logging In")
@@ -54,3 +52,25 @@ def logoutUser(req):
     logout(req)
     messages.success(req, 'Logged out successfully!')
     return redirect('Home')
+
+
+def register_student(request):
+    if request.method == 'POST':
+        form = RegisterForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            # Authenticate and logg user in
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password1']
+            user = authenticate(request, username = username, password = password)
+            if user is not None:
+                auth_login(request, user)
+                messages.success(request, 'User Registered  Successfully')
+                return redirect('Home')
+        else:
+            for err_msg in form.error_messages:
+                messages.error(request, err_msg)
+            return render(request, 'register.html', {'form': form })
+    else:
+        form = RegisterForm()
+        return render(request, 'register.html', {'form': form })
