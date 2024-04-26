@@ -1,13 +1,24 @@
 from django.shortcuts import render, redirect
-from django.template import loader
 from django.contrib.auth import authenticate, login as auth_login, logout
 from django.contrib import messages
 from .forms import RegisterForm
+from .models import Course, Module
+
 def homePage(request):
     return render(request, 'homePage.html', {})
 
 def aboutUs(request):
     return render(request, 'about.html', {})
+
+def courses(request):
+    courses = Course.objects.values('id', 'name', 'description')
+    print(courses)
+    return render(request, 'courses.html', {'courses': courses})
+
+def courseDetail(request, course_id):
+    course = Course.objects.get(id=course_id)
+    modules = Module.objects.filter(courses__id=course_id)
+    return render(request, 'courses_detail.html', {'course': course, 'modules': modules})
 
 def contact(request):
     return render(request, 'contact.html', {})

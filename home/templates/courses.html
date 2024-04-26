@@ -1,0 +1,35 @@
+{% extends "master.html" %}
+{% load static %}
+
+{% block title %}
+	Courses
+{% endblock %}
+{% block content %}
+<header id="head" class="secondary">
+    <div class="container">
+            <h1>Courses</h1>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto corporis,</p>
+    </div>
+  </header>
+    <!-- /container -->
+    <section class="team-content">
+        <div class="container">
+            <div class="row">
+                {% for course in courses %}
+                <a href="{% url 'CourseDetail' course.id %}">
+                    <div class="col-md-3 col-sm-6 col-xs-6">
+                        <div class="team-member course_shadow_box ">
+                            <div class="member-img">
+                                <img class="img-responsive" src="{% static 'images/courses/course_main.png' %}" alt="">
+                            </div>
+                            <h1 class="text-center">{{ forloop.counter }}</h1>
+                            <h4>{{course.name}}</h4>
+                            <p class="text-center" style="color: #3d84e6;">{{course.description}}</p>
+                        </div>
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+{% endblock %}

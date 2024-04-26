@@ -86,6 +86,7 @@ label {
 	height: 100px;
 	min-height: 100px;
 	padding-top: 0px;
+	margin-bottom: 20px;
 }
 #head .lead {
 	font-size: 44px;
@@ -708,6 +709,14 @@ nav#filter a.current {
 .team-member {
 	padding-top: 5px;
 	margin-bottom: 15px;
+}
+.course_shadow_box {
+	padding: 20px;
+	box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+}
+.module_shadow_box {
+	padding: 20px;
+	box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
 }
 .team-heading {
 	display: block;

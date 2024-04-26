@@ -1,0 +1,46 @@
+{% extends "master.html" %}
+{% load static %}
+
+{% block title %}
+	Courses
+{% endblock %}
+{% block content %}
+<header id="head" class="secondary">
+    <div class="container">
+            <h1>{{course.name}}</h1>
+            <p>{{course.description}}</p>
+    </div>
+  </header>
+    <!-- /container -->
+    <section class="team-content">
+        <div class="container">
+            <div class="row">
+                <h1>Course Id: {{course.id}}</h1>
+                <h1>{{course.name}}</h1>
+                <h3>{{course.description}}</h3>               
+            </div>             
+        </div>
+    </section>
+    <section class="team-content">
+        <div class="container">
+            <div class="row">
+                <h1>Modules</h1>
+                <br>
+                {% for module in modules %}
+                <a href="{% url 'CourseDetail' course.id %}">
+                    <div class="col-md-3 col-sm-6 col-xs-6">
+                        <div class="team-member module_shadow_box">
+                            <div class="member-img">
+                                <img class="img-responsive" src="{% static 'images/courses/module.png' %}" alt="">
+                            </div>
+                            <h1 class="text-center">{{ forloop.counter }}</h1>
+                            <h4>{{module.name}}</h4>
+                            <p class="text-center" style="color: #3d84e6;">{{module.description}}</p>
+                        </div>
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+{% endblock %}
