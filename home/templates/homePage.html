@@ -15,21 +15,8 @@
 							<p>Learning Management System</p>
 						</div>
             
-					<!-- <div class="fluid_container">                       
-                    <div class="camera_wrap camera_emboss pattern_1" id="camera_wrap_4">
-                        <div data-thumb="{% static 'images/slides/thumbs/img1.jpg' %}" data-src="{% static 'images/slides/img1.jpg' %}">
-                            <h2>We develop.</h2>
-                        </div> 
-                        <div data-thumb="{% static 'images/slides/thumbs/img2.jpg' %}" data-src="{% static 'images/slides/img2.jpg' %}">
-                        </div>
-                        <div data-thumb="{% static 'images/slides/thumbs/img3.jpg' %}" data-src="{% static 'images/slides/img3.jpg' %}">
-                        </div> 
-                    </div>
-                </div> -->
-                <!-- .fluid_container -->
 		</div>
 	</header>
-	<!-- /Header -->
 
   <div class="container">
     <div class="row">
@@ -37,98 +24,71 @@
 						<div class="grey-box-icon">
 							<div class="icon-box-top grey-box-icon-pos">
 								<img src="{% static 'images/1.png' %}" alt="" />
-							</div><!--icon box top -->
+							</div>
 							<h4>Online Courses</h4>
 							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tempus eleifend risus ut congue
 							eset nec lacus elit dor broma.</p>
      						<p><a href="#"><em>Read More</em></a></p>
-						</div><!--grey box -->
-					</div><!--/span3-->
+						</div>
+					</div>
 					<div class="col-md-3">
 						<div class="grey-box-icon">
 							<div class="icon-box-top grey-box-icon-pos">
 								<img src="{% static 'images/2.png' %}" alt="" />
-							</div><!--icon box top -->
+							</div>
 							<h4>Meet our Staff</h4>
 							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tempus eleifend risus ut congue
 							eset nec lacus elit dor broma.</p>
      						<p><a href="#"><em>Read More</em></a></p>
-						</div><!--grey box -->
-					</div><!--/span3-->
+						</div>
+					</div>
 					<div class="col-md-3">
 						<div class="grey-box-icon">
 							<div class="icon-box-top grey-box-icon-pos">
 								<img src="{% static 'images/3.png' %}" alt="" />
-							</div><!--icon box top -->
+							</div>
 							<h4>Latest Updates</h4>
 							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tempus eleifend risus ut congue
 							eset nec lacus elit dor broma.</p>
      						<p><a href="#"><em>Read More</em></a></p>
-						</div><!--grey box -->
-					</div><!--/span3-->
+						</div>
+					</div>
 					<div class="col-md-3">
 						<div class="grey-box-icon">
 							<div class="icon-box-top grey-box-icon-pos">
 								<img src="{% static 'images/4.png' %}" alt="" />
-							</div><!--icon box top -->
+							</div>
 							<h4>Placements</h4>
 							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tempus eleifend risus ut congue
 							eset nec lacus elit dor broma.</p>
      						<p><a href="#"><em>Read More →</em></a></p>
-						</div><!--grey box -->
-					</div><!--/span3-->
+						</div>
+					</div>
 				</div>
     </div>
       <section class="news-box top-margin">
         <div class="container">
             <h2><span>New Courses</span></h2>
             <div class="row">
-       
-                <div class="col-lg-4 col-md-4 col-sm-12">
-                    <div class="newsBox">
-                        <div class="thumbnail">
-                            <figure><img src="{% static 'images/news2.jpg' %}" alt=""></figure>
-                            <div class="caption maxheight2">
-                            <div class="box_inner">
-                                        <div class="box">
-                                            <p class="title"><h5>Developer</h5></p>
-                                            <p>Lorem ipsum dolor sit amet, conc tetu er adipi scing. Praesent ves tibuum molestie lacuiirhs. Aenean.</p>
-                                        </div> 
+                {% for course in courses %}
+                <a href="{% url 'CourseDetail' course.id %}">
+                    <div class="col-lg-4 col-md-4 col-sm-12">
+                        <div class="newsBox">
+                            <div class="thumbnail">
+                                <figure><img src="{% static 'images/news2.jpg' %}" alt=""></figure>
+                                <div class="caption maxheight2">
+                                <div class="box_inner">
+                                            <div class="box">
+                                                <p class="title"><h5>{{course.name}}</h5></p>
+                                                <p>{{course.description}}</p>
+                                            </div> 
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-12">
-                    <div class="newsBox">
-                        <div class="thumbnail">
-                            <figure><img src="{% static 'images/news3.jpg' %}" alt=""></figure>
-                            <div class="caption maxheight2">
-                            <div class="box_inner">
-                                        <div class="box">
-                                            <p class="title"><h5>Photography   </h5></p>
-                                            <p>Lorem ipsum dolor sit amet, conc tetu er adipi scing. Praesent ves tibuum molestie lacuiirhs. Aenean.</p>
-                                        </div> 
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-12">
-                    <div class="newsBox">
-                        <div class="thumbnail">
-                            <figure><img src="{% static 'images/news4.jpg' %}" alt=""></figure>
-                            <div class="caption maxheight2">
-                           <div class="box_inner">
-                                        <div class="box">
-                                            <p class="title"><h5>Audio Editing</h5></p>
-                                            <p>Lorem ipsum dolor sit amet, conc tetu er adipi scing. Praesent ves tibuum molestie lacuiirhs. Aenean.</p>
-                                        </div> 
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                </a>
+                {% endfor %}
             </div>
         </div>
     </section>

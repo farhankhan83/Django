@@ -118,10 +118,10 @@
                     <h3>No Students Enrolled</h3>
                 {% endif %}
                 {% for student in students %}
-                    <div class="col-md-3 col-sm-6 col-xs-6">
+                    <div class="col-md-3 col-sm-6 col-xs-6 text-center">
                         <div class="team-member module_shadow_box text-center">
                             {% if student.photo == NULL %}
-                                <div class="member-img">
+                                <div class="member-img text-center">
                                     <img class="img-responsive" src="{% static 'images/courses/user.png' %}" alt="" style="width: 200px; height: 200px;">
                                 </div>
                             {% endif %}
@@ -171,15 +171,18 @@
     <section class="team-content">
         <div class="container">
             <div class="row">
+                {% if request.user.is_authenticated %}
                 {% if reviewForm != None %}
-                    <h1>Submit Review</h1>
-                    <form method="POST" enctype="multipart/form-data" >
-                        {% csrf_token %}
-                        {{ reviewForm.as_p }}
-                        <br/>
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                  </form>
+                <h1>Submit Review</h1>
+                <form method="POST" enctype="multipart/form-data" >
+                    {% csrf_token %}
+                    {{ reviewForm.as_p }}
+                    <br/>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+              </form>
+            {% endif %}
                 {% endif %}
+                
             </div>
         </div>
     </section>
