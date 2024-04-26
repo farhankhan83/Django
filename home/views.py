@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login as auth_login, logout
 from django.contrib import messages
-from .forms import RegisterForm, UserStudentEditForm
+from django.core.mail import send_mail
+from .forms import RegisterForm, UserStudentEditForm, ContactForm
 from .models import Course, Module, Student, Registration
 
 def homePage(request):
@@ -36,7 +37,24 @@ def moduleDetail(request, module_id):
     return render(request, 'module_detail.html', {'modules': modules, 'students': registered_students, 'isStudentRegistered': found_user})
 
 def contact(request):
-    return render(request, 'contact.html', {})
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            name = form.cleaned_data['name']
+            email = form.cleaned_data['email']
+            subject = form.cleaned_data['subject']
+            message = form.cleaned_data['message']
+            send_mail(
+                subject=subject,
+                message=f'Name: {name}\nEmail: {email}\nMessage: {message}',
+                from_email=None,  # Use your email settings or leave None to use the DEFAULT_FROM_EMAIL setting
+                recipient_list=['danikhokhar@gmail.com'],  # Replace with your email address
+                fail_silently=False,
+            )
+            return redirect('Home')  # Render a success page
+    else:
+        form = ContactForm()
+    return render(request, 'contact.html', {'form': form})
 
 def login(request):
     if request.method == 'POST':

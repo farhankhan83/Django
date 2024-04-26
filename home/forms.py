@@ -88,3 +88,10 @@ class UserStudentEditForm(UserChangeForm, forms.ModelForm):
             user.save()
             student.save()
         return user
+    
+
+class ContactForm(forms.Form):
+    name = forms.CharField(label="Name", max_length= 50, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Name', 'required': True}))
+    email = forms.EmailField(label="Email", widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Email Address', 'required': True}))
+    subject = forms.CharField(label="Subject", max_length= 50, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Subject', 'required': True}))
+    message = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Message', 'required': True}))
