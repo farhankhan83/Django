@@ -10,7 +10,7 @@ class RegisterForm(UserCreationForm):
   address = forms.CharField(label="Address",max_length= 50,  widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Address', 'required': True}))
   city = forms.CharField(label="City/Town",max_length= 50,  widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'City/Town', 'required': True}))
   country = forms.CharField(label="Country",max_length= 50,  widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Country', 'required': True}))
-  profile_photo = forms.ImageField(
+  photo = forms.ImageField(
      label="Profile Image",
      widget=forms.FileInput(
         attrs={'class': 'form-control', 'placeholder': 'Profile Picture', 'required': True}))
@@ -18,7 +18,7 @@ class RegisterForm(UserCreationForm):
 
   class Meta:
     model = User
-    fields = ('username', 'first_name', 'last_name', 'email', 'address', 'city', 'country', 'profile_photo', 'date_of_birth', 'password1', 'password2') 
+    fields = ('username', 'first_name', 'last_name', 'email', 'address', 'city', 'country', 'photo', 'date_of_birth', 'password1', 'password2') 
 
   def __init__(self, *args, **kwargs):
       super(RegisterForm, self).__init__(*args, **kwargs)
