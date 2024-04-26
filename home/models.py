@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 class Student(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=False)
@@ -44,3 +45,13 @@ class Registration(models.Model):
 
     def __str__(self):
         return f"{self.student.username} - {self.module.name} ({self.date_of_registration})"
+
+class Review(models.Model):
+    student = models.ForeignKey(User, on_delete=models.CASCADE)
+    module = models.ForeignKey(Module, on_delete=models.CASCADE)
+    rating = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
+    comment = models.TextField()
+    date_created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.student.username}'s review for {self.module.name}"

@@ -1,3 +1,45 @@
+<style>
+.review-section {
+    margin: 20px 0;
+}
+
+.review {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 15px;
+}
+
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.student-name {
+    font-weight: bold;
+}
+
+.date {
+    color: #888;
+    font-size: 0.8em;
+}
+
+.rating {
+    font-size: 1.1em;
+    margin-bottom: 5px;
+}
+
+.rating i {
+    color: #FFD700; /* Set color for filled stars */
+}
+
+.comment {
+    margin-top: 10px;
+    font-size: 1.2em;
+}
+</style>
 {% extends "master.html" %}
 {% load static %}
 
@@ -97,4 +139,49 @@
             </div>
         </div>
     </section>
+    <section class="team-content">
+        <div class="container">
+            <div class="row">
+                <div class="review-section">
+                    <h2>Student Reviews</h2>
+                    <div class="reviews">
+                        {% for review in reviews %}
+                            <div class="review">
+                                <div class="review-header">
+                                    <span class="student-name">{{ review.student.username }}</span>
+                                    <span class="date">{{ review.date_created|date:"F j, Y" }}</span>
+                                </div>
+                                <div class="rating">
+                                    {% for star in review.stars %}
+                                        {% if star == 'filled' %}
+                                            <img src="{% static 'images/star.png' %}" alt="star" width="15px">
+                                        {% else %}
+                                            <img src="{% static 'images/empty_star.png' %}" alt="star" width="15px">
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                                <div class="comment">{{ review.comment }}</div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="team-content">
+        <div class="container">
+            <div class="row">
+                {% if reviewForm != None %}
+                    <h1>Submit Review</h1>
+                    <form method="POST" enctype="multipart/form-data" >
+                        {% csrf_token %}
+                        {{ reviewForm.as_p }}
+                        <br/>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                  </form>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+
 {% endblock %}

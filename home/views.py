@@ -2,8 +2,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login as auth_login, logout
 from django.contrib import messages
 from django.core.mail import send_mail
-from .forms import RegisterForm, UserStudentEditForm, ContactForm
-from .models import Course, Module, Student, Registration
+from .forms import RegisterForm, UserStudentEditForm, ContactForm, ReviewForm
+from .models import Course, Module, Student, Registration, Review
 
 def homePage(request):
     return render(request, 'homePage.html', {})
@@ -22,19 +22,36 @@ def courseDetail(request, course_id):
     return render(request, 'courses_detail.html', {'course': course, 'modules': modules})
 
 def moduleDetail(request, module_id):
+    if request.method == 'POST':
+        form = ReviewForm(request.user.id, module_id, request.POST)
+        if form.is_valid():
+            form.save()
+    else:
+        form = ReviewForm(request.user.id,module_id)
+
     modules = Module.objects.get(id=module_id)
     registrations = Registration.objects.filter(module_id=module_id)
     # Get the user IDs of registered students
     user_ids = registrations.values_list('student_id', flat=True)
 
     registered_students = Student.objects.filter(user_id__in=user_ids).select_related('user')
+    reviews = Review.objects.filter(module_id=module_id).select_related('student')
+    current_student_review = None
+    for review in reviews:
+        if review.student.id == request.user.id:
+            current_student_review = True
+        review.stars = generate_stars(review.rating)
+    if current_student_review == True:
+        form = None
 
+    print(form)
+    print(current_student_review)
     found_user = None
     for student in registered_students:
         if student.user.id == request.user.id:
             found_user = True
             break
-    return render(request, 'module_detail.html', {'modules': modules, 'students': registered_students, 'isStudentRegistered': found_user})
+    return render(request, 'module_detail.html', {'modules': modules, 'students': registered_students, 'isStudentRegistered': found_user, 'reviews': reviews, 'reviewForm': form})
 
 def contact(request):
     if request.method == 'POST':
@@ -191,3 +208,19 @@ def edit_profile(request):
                                                             'photo': student.photo})
 
     return render(request, 'edit_profile.html', {'form': form})
+
+def generate_stars(rating):
+    filled_stars = ['filled' for _ in range(rating)]
+    empty_stars = ['empty' for _ in range(5 - rating)]
+    return filled_stars + empty_stars
+
+
+def submit_review(request, module_id):
+    if request.method == 'POST':
+        form = ReviewForm(module_id, request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('Home')  # Render a success page
+    else:
+        form = ReviewForm(module_id)
+    return render(request, 'module_detail.html', {'form': form})
