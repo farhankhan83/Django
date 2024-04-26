@@ -77,15 +77,15 @@
                 {% endif %}
                 {% for student in students %}
                     <div class="col-md-3 col-sm-6 col-xs-6">
-                        <div class="team-member module_shadow_box">
+                        <div class="team-member module_shadow_box text-center">
                             {% if student.photo == NULL %}
                                 <div class="member-img">
-                                    <img class="img-responsive" src="../../{{student.photo}}" alt="">
+                                    <img class="img-responsive" src="{% static 'images/courses/user.png' %}" alt="" style="width: 200px; height: 200px;">
                                 </div>
                             {% endif %}
                             {% if student.photo != NULL %}
                                 <div class="member-img">
-                                    <img class="img-responsive" src="../../{{student.photo}}" alt="">
+                                    <img class="img-responsive" src="../../{{student.photo}}" alt="" style="width: 200px; height: 200px;">
                                 </div>
                             {% endif %}
                             <h1 class="text-center">{{ forloop.counter }}</h1>
