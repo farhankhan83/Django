@@ -1,9 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.models import User
 from django import forms
-from .models import Student
-import os
-from pathlib import Path
+from .models import Review
 
 class RegisterForm(UserCreationForm):
   email = forms.EmailField(label="Email", widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Email Address', 'required': True}))
@@ -95,3 +93,27 @@ class ContactForm(forms.Form):
     email = forms.EmailField(label="Email", widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Email Address', 'required': True}))
     subject = forms.CharField(label="Subject", max_length= 50, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Subject', 'required': True}))
     message = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Message', 'required': True}))
+
+class ReviewForm(forms.ModelForm):
+    class Meta:
+        model = Review
+        fields = ['rating', 'comment']
+        widgets = {
+            'rating': forms.NumberInput(attrs={'class': 'form-control', 'min': 1, 'max': 5}),
+            'comment': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Enter your comment here'}),
+        }
+
+    def __init__(self, student_id, module_id, *args, **kwargs):
+        super(ReviewForm, self).__init__(*args, **kwargs)
+        self.fields['rating'].label = 'Rating (1-5)'
+        self.fields['comment'].label = 'Comment'
+        self.module_id = module_id
+        self.student_id = student_id
+
+    def save(self, commit=True):
+        instance = super(ReviewForm, self).save(commit=False)
+        instance.module_id = self.module_id
+        instance.student_id = self.student_id
+        if commit:
+            instance.save()
+        return instance
