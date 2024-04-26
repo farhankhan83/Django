@@ -6,7 +6,8 @@ from .forms import RegisterForm, UserStudentEditForm, ContactForm, ReviewForm
 from .models import Course, Module, Student, Registration, Review
 
 def homePage(request):
-    return render(request, 'homePage.html', {})
+    courses = Course.objects.values('id', 'name', 'description')[:3]
+    return render(request, 'homePage.html', {'courses': courses})
 
 def aboutUs(request):
     return render(request, 'about.html', {})
@@ -44,8 +45,6 @@ def moduleDetail(request, module_id):
     if current_student_review == True:
         form = None
 
-    print(form)
-    print(current_student_review)
     found_user = None
     for student in registered_students:
         if student.user.id == request.user.id:
@@ -65,7 +64,7 @@ def contact(request):
                 subject=subject,
                 message=f'Name: {name}\nEmail: {email}\nMessage: {message}',
                 from_email=None,  # Use your email settings or leave None to use the DEFAULT_FROM_EMAIL setting
-                recipient_list=['danikhokhar@gmail.com'],  # Replace with your email address
+                recipient_list=[''],  # Replace with your email address
                 fail_silently=False,
             )
             return redirect('Home')  # Render a success page

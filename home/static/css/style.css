@@ -4,7 +4,6 @@ Website: http://webthemez.com
 Note: Please do not remove the footer backlink (webthemez.com)--(if you want to remove contact: webthemez@gmail.com)
 Licence: Creative Commons Attribution 3.0** - http://creativecommons.org/licenses/by/3.0/
 */
-@import url(http://fonts.googleapis.com/css?family=Oswald:400,700);
 @import url(http://fonts.googleapis.com/css?family=Lato:400,700);
 body {
 	font-family: 'Lato', sans-serif;
@@ -14,7 +13,7 @@ body {
 /*General*/
 h1, h2, h3, h4, h5, h6 {
 	font-weight: normal;
-	font-family: 'Oswald', sans-serif;
+	font-family: 'Lato', sans-serif;
 }
 h1, .h1, h2, .h2, h3, .h3 {
 	margin-top: 30px;
@@ -35,7 +34,7 @@ a:hover, a:focus{
 .navbar-nav>li>a {
 	padding-top: 12px;
 	padding-bottom: 12px;
-	font-family: 'Oswald', sans-serif;
+	font-family: 'Lato', sans-serif;
 	font-weight: 400 !important;
 }
 blockquote {
@@ -909,7 +908,7 @@ height:380px !important;
 }
 .camera_caption h2 {
 border-bottom: 4px solid #1fcdff;
-font-family: 'Open Sans', sans-serif;
+font-family: 'Poppins';
 font-size: 100px;
 font-weight: 700;
 letter-spacing: -2px;
