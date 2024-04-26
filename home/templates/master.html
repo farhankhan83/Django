@@ -64,18 +64,18 @@
       </h4>
       <div class="menu-course">
         <ul class="menu">
-          <li> <a href="/">
+          <li> <a href="{% url 'Home' %}">
               Home  </a>
           </li>
-          <li><a href="about">
+          <li><a href="{% url 'About' %}">
               About
             </a>
           </li>
-          <li><a href="courses">
+          <li><a href="{% url 'Courses' %}">
               Course
             </a>
           </li>
-          <li><a href="contact">
+          <li><a href="{% url 'Contact' %}">
               Contact
             </a>
           </li>
