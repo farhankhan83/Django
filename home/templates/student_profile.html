@@ -1,0 +1,73 @@
+{% extends "master.html" %}
+{% load static %}
+
+{% block title %}
+	Student Profile
+{% endblock %}
+{% block content %}
+<header id="head" class="secondary">
+    <div class="container">
+            <h1>Student Profile</h1>
+            <p>Details related to students, registrations</p>
+    </div>
+  </header>
+  <section class="team-content">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-sm-12 col-xs-12 module_shadow_box text-center" style="background-color: #3d84e6; height: 250px; color: white; display: flex; justify-content: center; align-items: center;">
+                <img class="img-responsive" style="max-height: 200px;" src="../../{{ student.photo }}" alt="">
+            </div>
+            <div class="col-md-6 col-sm-12 col-xs-12 module_shadow_box"
+             style="background-color: #000000; height: 250px; color: white;"
+            >
+            <h3 style="margin-top: 0; ">Name: {{student.user.first_name}} {{student.user.last_name}}</h3>
+            <h3 style="margin-top: 0; ">Email: {{student.user.email}}</h3>
+            <h3 style="margin-top: 0; ">Date of Birth: {{student.date_of_birth}}</h3>
+            <h3 style="margin-top: 0; ">Address: {{student.address}}, {{student.city_town}}, {{student.country}}</h3>
+            <div style="display: flex; flex-direction: row; justify-content: space-around;">
+                <form action="{% url 'EditProfile' %}">
+                    {% csrf_token %}
+                    <button class="btn btn-primary" type="submit"
+                    >Edit Profile</button>
+                </form>
+                <form action="{% url 'Password' student.user.id %}">
+                    {% csrf_token %}
+                    <button class="btn btn-primary" type="submit"
+                    >Reset Password</button>
+                </form>
+            </div>
+            </div>
+        </div>         
+    </div>
+</section>
+<section class="team-content">
+    <div class="container">
+        <div class="row">
+            <h1>My Registrations</h1>
+            <br>
+            {% if student_registrations.count == 0 %}
+                <h1>No Modules Registered</h1>
+            {% endif %}
+            {% for reg in student_registrations %}
+                <div class="col-md-3 col-sm-6 col-xs-6 text-center">
+                    <div class="team-member module_shadow_box">
+                        <div class="member-img">
+                            <img class="img-responsive" src="{% static 'images/courses/module.png' %}" alt="">
+                        </div>
+                        <h1 class="text-center">{{ forloop.counter }}</h1>
+                        <h4>{{reg.module.name}}</h4>
+                        <p class="text-center" style="color: #3d84e6;">{{reg.module.description}}</p>
+                        <form action="{% url 'RegisterModule' reg.module.id %}" method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="action" value="unregister">
+                            <button class="btn btn-primary" type="submit" {% if not reg.module.availability %}disabled{% endif %}
+                            >Unregister Module</button>
+                        </form>
+                    </div>
+                </div>
+
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

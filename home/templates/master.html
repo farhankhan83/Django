@@ -36,6 +36,7 @@
         <li><a href="{% url 'Contact' %}">Contact</a></li>
 {% if request.user.is_authenticated %}
   <li><a href="{% url 'Logout' %}">Logout</a></li>
+  <li><a href="{% url 'StudentProfile' %}">Profile</a></li>
   {% else %}
   <li><a href="{% url 'Login' %}">Login</a></li>
   <li><a href="{% url 'RegisterStudent' %}">Register</a></li>

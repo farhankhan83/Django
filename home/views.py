@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login as auth_login, logout
 from django.contrib import messages
-from .forms import RegisterForm
+from .forms import RegisterForm, UserStudentEditForm
 from .models import Course, Module, Student, Registration
 
 def homePage(request):
@@ -141,3 +141,35 @@ def register_in_module(request, module_id):
     else:
         # If it's not a POST request, render the module detail page
         return moduleDetail(request=request, module_id=module_id)
+
+def student_profile(request):
+    user_id = request.user.id
+    student = Student.objects.select_related('user').get(user_id=user_id)
+    if student is None:
+        return redirect('Home')
+    
+    student_registrations = Registration.objects.filter(student_id=user_id).select_related('module')
+    # Redirect back to the module detail page
+    return render(request, 'student_profile.html', {'student': student, 'student_registrations': student_registrations})
+
+def edit_profile(request):
+    student = Student.objects.get(user=request.user)
+
+    print({'date_of_birth': student.date_of_birth,
+                                                            'address': student.address,
+                                                            'city_town': student.city_town,
+                                                            'country': student.country,
+                                                            'photo': student.photo})
+    if request.method == 'POST':
+        form = UserStudentEditForm(request.POST, request.FILES, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('StudentProfile')  # Redirect to profile page after successful edit
+    else:
+        form = UserStudentEditForm(instance=request.user, initial={'date_of_birth': student.date_of_birth,
+                                                            'address': student.address,
+                                                            'city_town': student.city_town,
+                                                            'country': student.country,
+                                                            'photo': student.photo})
+
+    return render(request, 'edit_profile.html', {'form': form})
