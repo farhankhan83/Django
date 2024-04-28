@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.core.mail import send_mail
 from .forms import RegisterForm, UserStudentEditForm, ContactForm, ReviewForm
 from .models import Course, Module, Student, Registration, Review
+from django.contrib.auth.decorators import login_required
 
 def homePage(request):
     courses = Course.objects.values('id', 'name', 'description')[:3]
@@ -176,6 +177,7 @@ def register_in_module(request, module_id):
         # If it's not a POST request, render the module detail page
         return moduleDetail(request=request, module_id=module_id)
 
+@login_required(login_url='/')
 def student_profile(request):
     user_id = request.user.id
     student = Student.objects.select_related('user').get(user_id=user_id)
@@ -186,6 +188,7 @@ def student_profile(request):
     # Redirect back to the module detail page
     return render(request, 'student_profile.html', {'student': student, 'student_registrations': student_registrations})
 
+@login_required(login_url='/')
 def edit_profile(request):
     student = Student.objects.get(user=request.user)
 
