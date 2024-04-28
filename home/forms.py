@@ -1,7 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.models import User
 from django import forms
-from .models import Review
+from .models import Review, Student
 
 class RegisterForm(UserCreationForm):
   email = forms.EmailField(label="Email", widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Email Address', 'required': True}))
@@ -117,3 +117,14 @@ class ReviewForm(forms.ModelForm):
         if commit:
             instance.save()
         return instance
+    
+class ProfilePictureForm(forms.ModelForm):
+    photo = forms.ImageField(
+     widget=forms.FileInput(
+        attrs={'class': 'form-control', 'required': True}))
+    class Meta:
+        model = Student
+        fields = ['photo']
+
+    def __init__(self, *args, **kwargs):
+      super(ProfilePictureForm, self).__init__(*args, **kwargs)
