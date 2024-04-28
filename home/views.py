@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login as auth_login, logout
 from django.contrib import messages
 from django.core.mail import send_mail
-from .forms import RegisterForm, UserStudentEditForm, ContactForm, ReviewForm
+from .forms import RegisterForm, UserStudentEditForm, ContactForm, ReviewForm, ProfilePictureForm
 from .models import Course, Module, Student, Registration, Review
 from django.contrib.auth.decorators import login_required
 
@@ -179,6 +179,7 @@ def register_in_module(request, module_id):
 
 @login_required(login_url='/')
 def student_profile(request):
+    form = ProfilePictureForm()
     user_id = request.user.id
     student = Student.objects.select_related('user').get(user_id=user_id)
     if student is None:
@@ -186,7 +187,7 @@ def student_profile(request):
     
     student_registrations = Registration.objects.filter(student_id=user_id).select_related('module')
     # Redirect back to the module detail page
-    return render(request, 'student_profile.html', {'student': student, 'student_registrations': student_registrations})
+    return render(request, 'student_profile.html', {'student': student, 'student_registrations': student_registrations, 'profilePictureForm': form})
 
 @login_required(login_url='/')
 def edit_profile(request):
@@ -201,7 +202,7 @@ def edit_profile(request):
         form = UserStudentEditForm(request.POST, request.FILES, instance=request.user)
         if form.is_valid():
             form.save()
-            return redirect('StudentProfile')  # Redirect to profile page after successful edit
+            return redirect('StudentProfile')
     else:
         form = UserStudentEditForm(instance=request.user, initial={'date_of_birth': student.date_of_birth,
                                                             'address': student.address,
@@ -226,3 +227,20 @@ def submit_review(request, module_id):
     else:
         form = ReviewForm(module_id)
     return render(request, 'module_detail.html', {'form': form})
+
+
+@login_required
+def update_profile_picture(request):
+    if request.method == 'POST':
+        form = ProfilePictureForm(request.POST, request.FILES, instance=request.user.student)
+        print(form.is_valid())
+        if form.is_valid():
+            photo = request.FILES['photo']
+            print(request.user.student.photo)
+            request.user.student.photo = photo
+            request.user.student.save()
+            messages.success(request, 'Image Updated Successfully')
+        else:
+            messages.error(request, 'Fail to update the image')
+    return student_profile(request=request)
+    

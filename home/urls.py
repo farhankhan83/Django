@@ -18,5 +18,6 @@ urlpatterns = [
     path('edit_student', views.edit_profile, name='EditProfile'),
     path('<int:id>/password/', auth_views.PasswordChangeView.as_view(template_name='change-password.html'), name='Password'),
     path('password_change/done/', auth_views.PasswordChangeDoneView.as_view(template_name='password_change_done.html'), name='password_change_done'),
-    re_path(r'^.*$', RedirectView.as_view(url='/', permanent=False)),
+    path('update_profile_picture', views.update_profile_picture, name='UpdateProfilePicture'),
+    re_path(r'^(?!student_photos).*$', RedirectView.as_view(url='/', permanent=False)),
 ]
