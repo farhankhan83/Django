@@ -7,6 +7,7 @@ pip install python-dotenv
 
 <!-- For DB -->
 pip install mysql
+pip install Pillow
 pip install mysql-connector-python
 pip install mysql-connector
 
