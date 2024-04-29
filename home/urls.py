@@ -19,5 +19,4 @@ urlpatterns = [
     path('<int:id>/password/', auth_views.PasswordChangeView.as_view(template_name='change-password.html'), name='Password'),
     path('password_change/done/', auth_views.PasswordChangeDoneView.as_view(template_name='password_change_done.html'), name='password_change_done'),
     path('update_profile_picture', views.update_profile_picture, name='UpdateProfilePicture'),
-    re_path(r'^(?!student_photos).*$', RedirectView.as_view(url='/', permanent=False)),
 ]
