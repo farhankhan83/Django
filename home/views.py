@@ -5,6 +5,7 @@ from django.core.mail import send_mail
 from .forms import RegisterForm, UserStudentEditForm, ContactForm, ReviewForm, ProfilePictureForm
 from .models import Course, Module, Student, Registration, Review
 from django.contrib.auth.decorators import login_required
+from app.settings import EMAIL_HOST_USER, EMAIL_RECEPIENT
 
 def homePage(request):
     courses = Course.objects.values('id', 'name', 'description')[:3]
@@ -64,11 +65,11 @@ def contact(request):
             send_mail(
                 subject=subject,
                 message=f'Name: {name}\nEmail: {email}\nMessage: {message}',
-                from_email=None,  # Use your email settings or leave None to use the DEFAULT_FROM_EMAIL setting
-                recipient_list=[''],  # Replace with your email address
+                from_email=EMAIL_HOST_USER,  # Use your email settings or leave None to use the DEFAULT_FROM_EMAIL setting
+                recipient_list=[EMAIL_RECEPIENT],  # Replace with your email address
                 fail_silently=False,
             )
-            return redirect('Home')  # Render a success page
+            return redirect('Contact')  # Render a success page
     else:
         form = ContactForm()
     return render(request, 'contact.html', {'form': form})
