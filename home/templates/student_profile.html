@@ -15,7 +15,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-6 col-sm-12 col-xs-12 module_shadow_box text-center" style="background-color: #3d84e6; height: 350px; color: white; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-                <img class="img-responsive" style="max-height: 200px;" src="../../{{ student.photo }}" alt="">
+                <img class="img-responsive" style="max-height: 200px;" src="https://task2studyportalsa.blob.core.windows.net/media/{{ student.photo }}" alt="">
                 <form action="{% url 'UpdateProfilePicture' %}" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     {{profilePictureForm.as_p}}
