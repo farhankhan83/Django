@@ -33,6 +33,8 @@ ALLOWED_HOSTS_ENV = os.environ.get('ALLOWED_HOSTS').split(',')
 print(ALLOWED_HOSTS_ENV)
 print(type(ALLOWED_HOSTS_ENV))
 ALLOWED_HOSTS = ALLOWED_HOSTS_ENV
+CSRF_TRUSTED_ORIGINS = 'https://*'
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # Application definition
 
